@@ -1,0 +1,54 @@
+max_steps = 500
+
+[wandb]
+project = "arc-curriculum"
+name = "arc-curriculum-2lora-4b"
+
+[model]
+name = "Qwen/Qwen3-4B-Instruct-2507"
+
+[orchestrator]
+batch_size = 256
+rollouts_per_example = 8
+
+[orchestrator.sampling]
+max_tokens = 12288
+temperature = 1.0
+
+[orchestrator.wandb.log_extras]
+samples = true
+interval = 1
+
+[[orchestrator.env]]
+id = "arc-curriculum"
+name = "arc_curriculum"
+
+[orchestrator.env.args]
+num_examples = 31
+
+[ckpt]
+interval = 10
+keep_last = 3
+
+[trainer.model]
+seq_len = 16384
+optimization_dtype = "bfloat16"
+
+[trainer.model.ac]
+freq = 1
+
+[trainer.optim]
+lr = 1e-4
+
+[trainer.model.lora]
+rank = 32
+
+[deployment]
+num_train_gpus = 1
+num_infer_gpus = 1
+
+[inference]
+enable_lora = true
+
+[inference.model]
+max_model_len = 16384
