@@ -24,7 +24,7 @@ id = "arc-curriculum"
 name = "arc_curriculum"
 
 [orchestrator.env.args]
-num_examples = 31
+levels = [1]
 
 [ckpt]
 interval = 10
