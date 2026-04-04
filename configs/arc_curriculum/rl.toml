@@ -25,7 +25,7 @@ name = "arc_curriculum"
 
 [orchestrator.env.args]
 levels = [1]
-mastery_threshold = 0.7
+mastery_threshold = 0.65
 mastery_window = 40
 
 [ckpt]
