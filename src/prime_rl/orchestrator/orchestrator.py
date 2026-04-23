@@ -422,10 +422,15 @@ async def orchestrate(config: OrchestratorConfig):
             train_rollouts = await scheduler.generate_batch(step=progress.step)
             generate_completions_time += scheduler.last_batch_generation_time
 
-            # Compute advantages (in-place)
+            # Compute advantages (in-place) — skip if the environment already provided them
             num_rollouts = len(train_rollouts)
             num_unique_examples = len({r["example_id"] for r in train_rollouts})
-            compute_advantages(train_rollouts, config.rollouts_per_example, config.advantage)
+            has_precomputed = all(r.get("advantage") is not None for r in train_rollouts)
+            if has_precomputed:
+                advs = [r["advantage"] for r in train_rollouts]
+                print(f"[prime-rl] using pre-computed advantages from verifiers, n={len(advs)}, range=[{min(advs):.4f}, {max(advs):.4f}]")
+            else:
+                compute_advantages(train_rollouts, config.rollouts_per_example, config.advantage)
 
             # Apply rollout filters — sets rollout["filters"] and rollout["is_filtered"]
             apply_filters(rollout_filters, train_rollouts)
