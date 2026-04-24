@@ -12,7 +12,7 @@ batch_size = 256
 rollouts_per_example = 8
 
 [orchestrator.sampling]
-max_tokens = 12288
+max_tokens = 8192
 temperature = 1.0
 
 [orchestrator.wandb.log_extras]
@@ -22,7 +22,6 @@ interval = 1
 [[orchestrator.env]]
 id = "arc-synthetic-multistrategy"
 name = "arc_synthetic_multistrategy"
-
 [orchestrator.env.args]
 num_examples = 260
 levels = [1]
@@ -32,7 +31,7 @@ interval = 10
 keep_last = 10
 
 [trainer.model]
-seq_len = 16384
+seq_len = 8192
 optimization_dtype = "bfloat16"
 
 [deployment]
@@ -50,4 +49,4 @@ enable_lora = true
 max_lora_rank = 32
 
 [inference.model]
-max_model_len = 16384
+max_model_len = 8192
